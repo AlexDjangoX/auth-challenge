@@ -7,12 +7,17 @@ const apiUrl = "http://localhost:4000";
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [movieList, setMovieList] = useState(0);
 
   useEffect(() => {
-    fetch(`${apiUrl}/movie`)
+    fetch(`${apiUrl}/movie`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jsonWebToken")}`,
+      },
+    })
       .then((res) => res.json())
       .then((res) => setMovies(res.data));
-  }, [movies]);
+  }, [movieList]);
 
   const handleRegister = async ({ username, password }) => {
     const opts = {
@@ -21,10 +26,12 @@ function App() {
       body: JSON.stringify({ username, password }),
     };
 
-    // const res =
-    await fetch(`${apiUrl}/user/register`, opts);
-    // const data = await res.json();
-    // console.log(data);
+    const res = await fetch(`${apiUrl}/user/register`, opts);
+    const data = await res.json();
+
+    if (data.error) {
+      alert(data.error);
+    }
   };
 
   const handleLogin = async ({ username, password }) => {
@@ -35,11 +42,14 @@ function App() {
     };
 
     const res = await fetch(`${apiUrl}/user/login`, opts);
+
     const data = await res.json();
+
     if (res.ok) {
       localStorage.setItem("jsonWebToken", data.data);
+      setMovieList(movieList + 1);
     } else {
-      console.log(data.error);
+      alert(data.error);
     }
   };
 
@@ -57,6 +67,14 @@ function App() {
 
     const res = await fetch(`${apiUrl}/movie`, opts);
     const data = await res.json();
+
+    if (data.error) {
+      alert(data.error);
+    }
+
+    if (data) {
+      setMovieList(movieList + 1);
+    }
   };
 
   return (

@@ -25,8 +25,8 @@ model Movie {
   title         String      @unique
   description   String
   runtimeMins   Int
-  user          User       @relation(fields: [movieId], references: [id])
-  movieId       Int
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 }
