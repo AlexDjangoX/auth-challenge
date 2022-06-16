@@ -1,30 +1,63 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import MovieForm from './components/MovieForm';
-import UserForm from './components/UserForm';
+import { useEffect, useState } from "react";
+import "./App.css";
+import MovieForm from "./components/MovieForm";
+import UserForm from "./components/UserForm";
 
-const apiUrl = 'http://localhost:4000';
+const apiUrl = "http://localhost:4000";
 
 function App() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     fetch(`${apiUrl}/movie`)
-      .then(res => res.json())
-      .then(res => setMovies(res.data));
-  }, []);
+      .then((res) => res.json())
+      .then((res) => setMovies(res.data));
+  }, [movies]);
 
   const handleRegister = async ({ username, password }) => {
-    
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    };
+
+    // const res =
+    await fetch(`${apiUrl}/user/register`, opts);
+    // const data = await res.json();
+    // console.log(data);
   };
 
   const handleLogin = async ({ username, password }) => {
-    
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    };
+
+    const res = await fetch(`${apiUrl}/user/login`, opts);
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem("jsonWebToken", data.data);
+    } else {
+      console.log(data.error);
+    }
   };
-  
+
   const handleCreateMovie = async ({ title, description, runtimeMins }) => {
-    
-  }
+    const token = localStorage.getItem("jsonWebToken");
+    console.log("token... : ", token);
+    const opts = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title, description, runtimeMins }),
+    };
+
+    const res = await fetch(`${apiUrl}/movie`, opts);
+    const data = await res.json();
+  };
 
   return (
     <div className="App">
@@ -39,7 +72,7 @@ function App() {
 
       <h1>Movie list</h1>
       <ul>
-        {movies.map(movie => {
+        {movies.map((movie) => {
           return (
             <li key={movie.id}>
               <h3>{movie.title}</h3>
