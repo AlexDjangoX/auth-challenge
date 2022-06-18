@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import MovieForm from "./components/MovieForm";
-import UserForm from "./components/UserForm";
+
+import Login from "../Login";
+import CreateMovie from "../CreateMovie";
+import Register from "../Register";
 
 const apiUrl = "http://localhost:4000";
 
@@ -18,21 +20,6 @@ function App() {
       .then((res) => res.json())
       .then((res) => setMovies(res.data));
   }, [movieList]);
-
-  const handleRegister = async ({ username, password }) => {
-    const opts = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    };
-
-    const res = await fetch(`${apiUrl}/user/register`, opts);
-    const data = await res.json();
-
-    if (data.error) {
-      alert(data.error);
-    }
-  };
 
   const handleLogin = async ({ username, password }) => {
     const opts = {
@@ -79,27 +66,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Register</h1>
-      <UserForm handleSubmit={handleRegister} />
-
-      <h1>Login</h1>
-      <UserForm handleSubmit={handleLogin} />
-
-      <h1>Create a movie</h1>
-      <MovieForm handleSubmit={handleCreateMovie} />
-
-      <h1>Movie list</h1>
-      <ul>
-        {movies.map((movie) => {
-          return (
-            <li key={movie.id}>
-              <h3>{movie.title}</h3>
-              <p>Description: {movie.description}</p>
-              <p>Runtime: {movie.runtimeMins}</p>
-            </li>
-          );
-        })}
-      </ul>
+      <Register />
+      <Login handleLogin={handleLogin} />
+      <CreateMovie handleCreateMovie={handleCreateMovie} movies={movies} />
     </div>
   );
 }
