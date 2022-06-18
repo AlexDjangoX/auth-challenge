@@ -1,8 +1,10 @@
 import React from "react";
 import UserForm from "../src/client/components/UserForm";
+import { useNavigate } from "react-router-dom";
 const apiUrl = "http://localhost:4000";
 
 const Register = () => {
+  const navigate = useNavigate();
   const handleRegister = async ({ username, password }) => {
     const opts = {
       method: "POST",
@@ -12,6 +14,7 @@ const Register = () => {
 
     const res = await fetch(`${apiUrl}/user/register`, opts);
     const data = await res.json();
+    navigate("/login");
 
     if (data.error) {
       alert(data.error);
