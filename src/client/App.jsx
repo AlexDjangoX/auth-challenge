@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
-
 import Login from "../Login";
 import CreateMovie from "../CreateMovie";
 import Register from "../Register";
@@ -66,9 +66,19 @@ function App() {
 
   return (
     <div className="App">
-      <Register />
-      <Login handleLogin={handleLogin} />
-      <CreateMovie handleCreateMovie={handleCreateMovie} movies={movies} />
+      <Routes>
+        <Route path="/" element={<Register />} />
+        <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+        <Route
+          path="/create"
+          element={
+            <CreateMovie
+              handleCreateMovie={handleCreateMovie}
+              movies={movies}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }
