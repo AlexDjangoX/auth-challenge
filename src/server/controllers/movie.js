@@ -2,11 +2,16 @@ const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const verifyUser = (req) => {
+  const [bearer, token] = req.headers.authorization.split(" ");
+  jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = jwt.decode(token);
+  return decoded;
+};
+
 const getAllMovies = async (req, res) => {
   try {
-    const [bearer, token] = req.headers.authorization.split(" ");
-    jwt.verify(token, process.env.JWT_SECRET);
-    const decoded = jwt.decode(token);
+    const decoded = verifyUser(req);
 
     const foundUser = await prisma.user.findFirst({
       where: {
@@ -31,9 +36,9 @@ const createMovie = async (req, res) => {
   try {
     const [bearer, token] = req.headers.authorization.split(" ");
 
-    jwt.verify(token, process.env.JWT_SECRET);
-
-    const decoded = jwt.decode(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log(payload);
+    // const decoded = jwt.decode(token);
 
     const createdMovie = await prisma.movie.create({
       data: {
