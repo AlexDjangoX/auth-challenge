@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import UserForm from "./UserForm";
+import { Context } from "../context/globalContext";
+import UserForm from "./forms/UserForm";
 const apiUrl = "http://localhost:4000";
 
-const Login = ({ setMovieList, movieList }) => {
+const Login = () => {
   const navigate = useNavigate();
+  const { movieList, setMovieList } = useContext(Context);
 
   const handleLogin = async ({ username, password }) => {
     const opts = {

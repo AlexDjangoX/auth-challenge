@@ -1,10 +1,11 @@
 import React from "react";
-import UserForm from "./UserForm";
+import UserForm from "./forms/UserForm";
 import { useNavigate } from "react-router-dom";
 const apiUrl = "http://localhost:4000";
 
 const Register = () => {
   const navigate = useNavigate();
+
   const handleRegister = async ({ username, password }) => {
     const opts = {
       method: "POST",

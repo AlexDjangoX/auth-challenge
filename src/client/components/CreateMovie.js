@@ -1,10 +1,10 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import MovieForm from "./MovieForm";
+import React, { useContext } from "react";
+import { Context } from "../context/globalContext";
+import MovieForm from "./forms/MovieForm";
 const apiUrl = "http://localhost:4000";
 
-const CreateMovie = ({ movies, setMovieList, movieList }) => {
-  const navigate = useNavigate();
+const CreateMovie = () => {
+  const { movies, setMovieList, movieList } = useContext(Context);
 
   const handleCreateMovie = async ({ title, description, runtimeMins }) => {
     const token = localStorage.getItem("jsonWebToken");
