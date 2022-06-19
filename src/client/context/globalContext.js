@@ -6,7 +6,6 @@ export const Context = createContext({});
 
 const GlobalProvider = (props) => {
   const [token, setToken] = useState("");
-
   const [movies, setMovies] = useState([]);
   const [movieList, setMovieList] = useState(0);
 
