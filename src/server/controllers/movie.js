@@ -34,11 +34,7 @@ const createMovie = async (req, res) => {
   const { title, description, runtimeMins } = req.body;
 
   try {
-    const [bearer, token] = req.headers.authorization.split(" ");
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log(payload);
-    // const decoded = jwt.decode(token);
+    const decoded = verifyUser(req);
 
     const createdMovie = await prisma.movie.create({
       data: {

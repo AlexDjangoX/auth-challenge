@@ -5,7 +5,7 @@ const apiUrl = "http://localhost:4000";
 
 const CreateMovie = () => {
   const { movies, setMovieList, movieList } = useContext(Context);
-
+  // const movies = useContext(Context).movies;
   const handleCreateMovie = async ({ title, description, runtimeMins }) => {
     const token = localStorage.getItem("jsonWebToken");
 

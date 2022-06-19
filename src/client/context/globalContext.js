@@ -22,7 +22,14 @@ const GlobalProvider = (props) => {
 
   return (
     <Context.Provider
-      value={{ token, setToken, movies, setMovies, movieList, setMovieList }}
+      value={{
+        token: token,
+        setToken,
+        movies,
+        setMovies,
+        movieList,
+        setMovieList,
+      }}
     >
       {props.children}
     </Context.Provider>
